@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <!--scripts for meta tags and autocomplete-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>County Comparator</title>
+    
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--CSS autocomplete-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/token-input.css') }}" />
+    
+    <!-- end of Meta tags and autocomplete-->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <!--CSS-->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+   
+   <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    
+    <!-- JS  -->
+    <!--Ecos-Meakin--><script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+    <!--Maps-Sly  <script  src="{{ url_for('static', filename='js/logic.js') }}" defer></script>-->
+     <!--Choro map-->                 <script  src="{{ url_for('static', filename='js/logic_chor.js') }}" defer></script>
+    <!--Vera--><script src="{{ url_for('static', filename='js/app_vera.js') }}" defer></script>
+   
+                      <!-- D3 JS -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <!-- Plotly JS -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="shortcut icon" type="image/jpg" href="{{ url_for('static', filename='Images/favicon.jpg') }}"/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+    crossorigin=""></script>
+    
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.css" rel="stylesheet" />
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin=""/>
+    <!-- API key -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/config.js') }}"></script>
+     <!-- Leaflet-Choropleth JavaScript -->
+     <script type="text/javascript" src="{{ url_for('static', filename='js/choropleth.js') }}"></script>
+
+  </head>
+  <body>
+    <!--Start of Nav Bar-->  
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <img src="{{ url_for('static', filename='Images/logo.jpg')}}" class="img-logo" alt="..."><br> 
+      <a class="navbar-brand" href="#"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="maps.html">Maps</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Data</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Options
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="#">Income/Expenditures</a>
+              <a class="dropdown-item" href="#">Home Prices</a>
+              <a class="dropdown-item" href="#">Crime Rate</a>
+              <a class="dropdown-item" href="#">School Rating</a>
+              <a class="dropdown-item" href="#">Reviews</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!--End of Nav Bar-->
+    <!--Start of Jumbotron-->
+     <!--start of jumbotron code-->
+     <div class="jumbotron jumbotron-fluid">
+      <div class="container fluid">
+        <h1 class="display-4 text-dark">County Comparator</h1>
+        <p class="lead">Your guide for your next Big Move</p>
+        <div class="container fluid">
+          <!--Start of autocpmplete search -->
+          
+          <?php
+          if(isset($_POST['submit'])){
+              // Get selected counties
+              $selected_counties_ids = $_POST['county_input'];
+          
+          echo $selected_counties_ids;
+          }
+          ?>
+
+        <div class="row">
+          <div class="col-9">
+            <form method="GET" action="">
+              <p><h4>Select Two Counties</h4></p>
+              <input type="text" name="county_input" id="county_input" class="form-control"/><br/>
+              <input id='submit' type="button" name="submit" value="SUBMIT" class="btn btn-success">
+            </form>
+          </div>
+      <!-- Tokeninput plugin library -->
+        <script src= "{{ url_for('static', filename='js/jquery.tokeninput.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/counties.js') }}"></script>
+        <script> var counties = counties
+       $(document).ready(function() {
+          $("#county_input").tokenInput(counties);
+        });
+        </script>     
+                <div class="col-3">
+                <select class="custom-select" multiple>
+                <option selected>Select Option</option>
+                <option value="1">Income/Expenditure</option>
+                <option value="2" id="housingPricing">Home Prices</option>
+                <option value="3">Crime Rate</option>
+                <option value="3">School Rating</option>
+              </select> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end of jumbotron code and autocomplete search-->
+    <!--Start of container div-->
+  <div class="container fluid">
+    <div class="row">
+      <div class="container col-2 my-5">
+        <h1>Example Form</h1>
+      
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Enter your email address...">
+        </div><!-- /form-group -->
+      
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
+            <button class="btn btn-primary  btn-block">Sign up</button>
+          </div><!-- /col -->
+        </div><!-- /row -->
+        
+        <div class="footer">
+          <hr>
+            
+          <p>The button above will have a limited width unless the screen is small, in which case the button expands to fit the entire width of the container. This is accomplished by adding the <code>btn-block</code> class to the button and placing it inside of a <code>div</code> with the appropriate <code>col</code> classes to size it at different breakpoints.</p>
+        </div>
+      </div><!-- /container -->
+      <div class="col-8" id="ecosplot">This is row for city one bar chart </div>
+      <!--<div class="col-5">This is row for city two bar chart</div>-->
+      <div class="col-2"><div class="card" style="width: 18rem;">
+        <img src="" class="card-img-top" id = "cnty1" alt="...">
+        <div class="card-body">
+          <p class="card-text" id ="cnty1_text">Imagine living in city one.</p>
+        </div>
+      </div></div>
+    </div>
+    <div class="row" >
+
+      <div class="col-5 map-container" id = "ThisMap"><div class="col-5 map-container" id="map">This is row for city one bar chart </div></div>
+      <div class="col-5 map-container" id="map_chor" >This is row for city two bar chart</div>
+      <div class="col-2"><div class="card" style="width: 18rem;">
+        <img src="" class="card-img-top" id = "cnty2" alt="...">
+        <div class="card-body">
+          <p class="card-text" id ="cnty2_text">Imagine living in city two.</p>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <!--Vera-->
+  <div class="container fluid">
+    <div class="row">
+      <!-- Add homeValues id -->
+      <div class="col-md-6" id="homeValues"></div>
+      <!-- End of addition-->
+      <div class="col-md-6" id="rentalPricing"></div>
+      <!-- <div class="col-2"><div class="card" style="width: 18rem;">  
+        <img src="https://picsum.photos/200/300" class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-text">Imagine living in city one.</p>
+        </div>
+      </div></div> -->
+    </div>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-md-4">
+        <h3 id="tableDiv"></h3>
+        <br>
+        <table id="housingTable" class="table table-striped">
+          <thead id="housing-head">
+            <!-- <tr id="housing-head">
+              <th class="table-head">Region Name</th>
+              <th class="table-head">State</th>
+              <th class="table-head">2020 Housing Pricing</th>
+            </tr> -->
+          </thead>
+          <tbody id="housing-tbody"></tbody>
+        </table>
+      </div>
+      <div class="col-md-8" id="housingMap"></div>
+      <!-- <div class="col-5">This is row for city two bar chart</div> -->
+      <!-- <div class="col-2"><div class="card" style="width: 18rem;">
+        <img src="https://picsum.photos/200/300" class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-text">Imagine living in city two.</p>
+        </div>
+      </div></div> -->
+    </div>
+    comments
+  </div>
+  <div class="container fluid">
+    <div class="row">
+      
+      <div class="col-md-6">
+        <div id="table-area" id="comments_county1">
+          <table id="table_county1" class="table table-striped">
+            <thead>
+              <tr>
+                <th class="table-head">Reviews</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="col-md-6" >
+        <div id="table-area" id="comments_county2">
+          <table  class="table table-striped">
+            <thead>
+              <tr>
+                <th class="table-head">Reviews</th>
+              </tr>
+            </thead>
+            <tbody id="table_county2" ></tbody>
+          </table>
+        </div>
+      </div>
+    
+    </div>
+
+  
+
+ </body>
+</html>
