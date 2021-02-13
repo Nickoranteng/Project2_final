@@ -59,11 +59,11 @@ def samples():
 def us_county():
 
     data_json = open("static/data/uscounty.geojson", "r") 
-    data_data = geojson.load(data_json)
+    data_data2 = geojson.load(data_json)
     
     #This serves geodata on us county boundaries
     
-    return data_data
+    return data_data2
 
 @app.route("/us_states")
 def county_county():
