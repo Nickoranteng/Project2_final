@@ -398,7 +398,7 @@ document.getElementById('submit').addEventListener('click', processSubmit);
 
 
 
-// Use L.geoJSON to create a geoJSON layer
+// Use L.geoJSON to create a geoJSON layer......
 
 
 
