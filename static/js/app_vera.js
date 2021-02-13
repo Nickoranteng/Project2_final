@@ -10,7 +10,7 @@ function Initialize(){
     housingPricing(county1_SEL, county2_SEL);
     rentalPricing(county1_SEL, county2_SEL);
     mapViz(county1_SEL, county2_SEL);
-    housingTable();
+    housingTable(county1_SEL, county2_SEL);
     console.log(`Initialise is running-VERA`)
   };
   Initialize();
@@ -261,7 +261,7 @@ function mapViz(county1_SEL, county2_SEL) {
 
             // Binding a pop-up to each layer
             onEachFeature: function(feature, layer) {
-            layer.bindPopup(`<h5>${feature.properties.RegionName}, ${feature.properties.State}</h5>
+            layer.bindPopup(`<h5>${feature.properties.RegionName}, ${feature.properties.state}</h5>
                                 <br><p>Housing Price in 2020: $${feature.properties["2020-12-31"]}</p>`);
             }
         }); // .addTo(myMap)   End of choropleth layer
@@ -339,33 +339,66 @@ function mapViz(county1_SEL, county2_SEL) {
 // ****************************************
 // ******* Build Map Viz Function *********
 // ****************************************
-function housingTable(sample) {
-    
+function housingTable(county1_SEL, county2_SEL) {
     // add table title
-    var tableTitle = d3.select("#tableDiv").text("Top Ten Pricy Counties in the US");
-
-    // add table head
-    var thead = d3.select("#housing-head");
-    var tr = thead.append("tr")
-
-    tr.append("th").text("Region Name");
-    tr.append("th").text("State");
-    tr.append("th").text("2020 Housing Pricing")
-
-    d3.json('/sortedValues').then(data => {
-        console.log(data)
-        
+    // var tableTitle = d3.select("#tableDiv").text("Home Values Comparison");
+    // // add table head
+    
+    
+    // var thead = d3.select("#housing-head");
+    
+    // var tr = thead.append("tr")
+    // tr.html("")
+    // tr.append("th").text("State");
+    // tr.append("th").text("County");
+    // tr.append("th").text("2020 Housing Pricing")
+    
+    // '/sortedValues'
+    d3.json("/home_values").then(data => {
+        // console.log(data)
         // add table body
         var tbody = d3.select("#housing-tbody");
-
-        data.forEach(record => {
-            var row = tbody.append("tr");
-
-            row.append("td").text(record.RegionName);
-            row.append("td").text(record.State);
-            row.append("td").text(record["2020 Home Values"])
-        })
-    })
+        tbody.html("")
+        
+        
+    // var citySelector1 = d3.select("#city1").property();
+    citySelector1 = county1_SEL
+    var string1 = citySelector1.split(", ");
+    var county_name1 = string1[0]
+    var county1 = `${county_name1} County`
+    var state1 = string1[1]
+    // select city2 input value
+    // var citySelector2 = d3.select("#city2").property();
+    citySelector2 = county2_SEL
+    var string2 = citySelector2.split(", ");
+    var county_name2 = string2[0]
+    var county2 = `${county_name2} County`
+    var state2 = string2[1]
+    // filter data based on counties and states
+    var result1 = data.filter(record => (record.RegionName == county1) & (record.State == state1))
+    var result2 = data.filter(record => (record.RegionName == county2) & (record.State == state2))
+    // select data for home values and years
+    for (let result of result1) {
+        var years_county1 = Object.keys(result).slice(299)
+        var y_county1 = years_county1[0]
+        var values_county1 = Object.values(result).slice(299);
+        var v_county1 = values_county1[0]
+        var row = tbody.append("tr");
+        row.append("td").text(result.State)
+        row.append("td").text(result.RegionName);
+        row.append("td").text(v_county1);
+    }
+    for (let result of result2) {
+        var years_county2 = Object.keys(result).slice(299)
+        var y_county2 = years_county2[0]
+        var values_county2 = Object.values(result).slice(299);
+        var v_county2 = values_county2[0]
+        var row = tbody.append("tr");
+        row.append("td").text(result.State)
+        row.append("td").text(result.RegionName);
+        row.append("td").text(v_county2);
+    }
+     })
 };
 
 
@@ -397,6 +430,7 @@ function processSubmit() {
     housingPricing(county1_SEL, county2_SEL);
     rentalPricing(county1_SEL, county2_SEL);
     mapViz(county1_SEL, county2_SEL);
+    housingTable(county1_SEL, county2_SEL);
     
  
   }

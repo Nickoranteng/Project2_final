@@ -550,13 +550,13 @@ function reviewsLoad(county1, county2){
     var filtered_county1 = data.filter(d => d['county_state'] == selector_county1);
     var filtered_county2 = data.filter(d => d['county_state'] == selector_county2);
     console.log(filtered_county1)
-    // var comment_county1 = filtered_county1[0].comment
-    // var comment_county2 = filtered_county2[0].comment
+   
+    d3.select("#table1" ).text("")
+    d3.select("#table2" ).text("")
 
-    // town_county1 = filtered_county1[0].town
-    // town_county2 = filtered_county2[0].town
-
-    filtered_county1.forEach(record => {
+    d3.select("#table1" ).text(`Reviews for ${selector_county1}`)
+    d3.select("#table2" ).text(`Reviews for ${selector_county2}`)
+    filtered_county1.slice(0,3).forEach(record => {
       var comment_county1 = record.comment
       var town_county1 = record.town
       var tbody = d3.select("#table_county1" )
@@ -566,7 +566,7 @@ function reviewsLoad(county1, county2){
 
     })
 
-    filtered_county2.forEach(record => {
+    filtered_county2.slice(0,3).forEach(record => {
       var comment_county2 = record.comment
       var town_county2 = record.town
       var tbody = d3.select("#table_county2" )
@@ -576,13 +576,7 @@ function reviewsLoad(county1, county2){
 
     })
  
-    // document.getElementById('cnty1').src = images_url_county1
-    // document.getElementById('cnty2').src = images_url_county2
-    // document.getElementById('cnty1_text').innerText = images_descr_county1
-    // document.getElementById('cnty2_text').innerText = images_descr_county2
-    // // d3.select("#cnty2").property("src") = images_url_county2
-    // d3.select("#cnty1_text").text = images_src_county1
-    // d3.select("#cnty2_text").text = images_src_county2
+    
   });
 }
 
