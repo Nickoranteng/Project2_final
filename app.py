@@ -11,6 +11,12 @@ from sqlalchemy import create_engine
 # PyMySQL 
 import pymysql
 pymysql.install_as_MySQLdb()
+
+# Heroku check
+is_heroku = False
+if 'IS_HEROKU' in os.environ:
+    is_heroku = True
+
 # Config variables
 # Import your config file(s) and variable(s)
 if is_heroku == True:
