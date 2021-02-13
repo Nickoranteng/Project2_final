@@ -305,10 +305,10 @@ function buildCharts(county1, county2) {
                   
               ],
               direction: 'down',
-              pad: {'r': 30, 't': 6},
+              pad: {'r': 30, 't': 90},
               showactive: true,
               type: 'buttons',
-              x: -0.4,
+              x: -0.6,
               xanchor: 'left',
               y: button_layer_2_height,
               yanchor: 'top',
