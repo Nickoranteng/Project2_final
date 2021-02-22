@@ -1,3 +1,13 @@
+TEAM MEMBERS
+
+Regina Tettey
+Vera Song
+Jannette Amedome
+Nicholas Koranteng
+Sylvester Okeleke
+Meakin Marange
+
+
 Before you start writing any code, outline the scope and purpose of your project. This helps provide direction and prevent [scope creep](https://en.wikipedia.org/wiki/Scope_creep).
 
 Write this as a brief summary of your interests and intent, including:
